@@ -9,11 +9,9 @@ function App() {
   useEffect(() => {
     axios.get("https://dadosabertos.camara.leg.br/api/v2/deputados?ordem=ASC&ordenarPor=nome")
     .then((response) => {
-        setDeputados(response.data)
-      //  console.log(response.data)
-        console.log(response.data.dados[0].nome)
-        console.log(response.data.dados[1].id)
-
+        
+        setDeputados(response.data.dados)
+    
     }).catch(() => {
         console.log("Deu ERRADO")
     })
@@ -22,24 +20,25 @@ function App() {
 	return(
 		<div className="app">
 
-			<div className="cards">
+      {deputados.map((element, key) => {
 
-      {Object.keys(deputados).map((deputado, key) => {
-
-          return (
-            <div className="card" key={key}>
-            <div className="card-body" >
-              <h1> { deputado.dados.id } </h1>
-              <div className="line"></div>
-              <h2> </h2>
-            </div>
-          </div>
+              return (
+              <div className="tabela" >
+                <table>
+                  <tbody>
+                    <tr key={key}>
+                      <td>{ element.nome }</td>
+                      <td>{ element.siglaPartido }</td>
+                      <td>{ element.siglaUf }</td>
+                    </tr>
+                  </tbody>
+                </table>
+             </div>
   
           )
       })}
 
 			
-			</div>
 
 		</div>
 	)
